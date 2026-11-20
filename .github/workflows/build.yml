@@ -1,4 +1,4 @@
-name:unzip -q "KyivCity-Android-Project (1).zip"
+name: Build Kyiv.city APK
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
 
       - name: Unpack project
         run: |
-          unzip -q KyivCity-Android-Project.zip
+          unzip -q "KyivCity-Android-Project (1).zip"
           cd KyivCity-Android
           echo "PROJECT_DIR=$PWD" >> "$GITHUB_ENV"
 
