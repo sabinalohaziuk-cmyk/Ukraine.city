@@ -1,4 +1,4 @@
-name: Build Kyiv.city APK
+name:unzip -q "KyivCity-Android-Project (1).zip"
 
 on:
   workflow_dispatch:
