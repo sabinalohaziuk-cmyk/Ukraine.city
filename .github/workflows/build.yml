@@ -1,46 +1,42 @@
-name: Build Kyiv.city APK
+name: name: Build Kyiv.city APK
 
-on:
+"on":
+
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Download project
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Unpack project
-        run: |
-          unzip -q "KyivCity-Android-Project (1).zip"
-          cd KyivCity-Android
-          echo "PROJECT_DIR=$PWD" >> "$GITHUB_ENV"
-
-      - name: Set up Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
-
-      - name: Set up Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android platform
+      - name: Install Android SDK packages
         run: |
-          yes | sdkmanager --licenses
           sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
+      - name: Extract project
+        run: |
+          mkdir project
+          unzip -q KyivCity-Android-Project.zip -d project
+          find project -name gradlew -type f
+
       - name: Build APK
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: gradle --no-daemon assembleDebug
+        run: |
+          cd project/KyivCity-Android
+          gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Kyiv-city-APK
-          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/app-debug.apk
+          path: project/KyivCity-Android/app/build/outputs/apk/debug/app-debug.apk
