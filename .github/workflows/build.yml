@@ -1,7 +1,6 @@
-name: name: Build Kyiv.city APK
+name: Build Kyiv.city APK
 
 "on":
-
   workflow_dispatch:
 
 jobs:
